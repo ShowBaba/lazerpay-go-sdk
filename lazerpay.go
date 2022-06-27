@@ -18,8 +18,8 @@ var (
 )
 
 type Config struct {
-	apiPubKey string
-	apiSecKey string
+	ApiPubKey string
+	ApiSecKey string
 	Live      bool
 }
 
@@ -79,12 +79,12 @@ func (ctx Context) SendRequest(mtd string, url string, data interface{}, params 
 
 	switch authType {
 	case "PUB_KEY":
-		req.Header.Add("x-id-key", ctx.Config.apiPubKey)
+		req.Header.Add("x-id-key", ctx.Config.ApiPubKey)
 	case "SEC_KEY":
-		req.Header.Add("Authorization", fmt.Sprintf(`Bearer %s`, ctx.Config.apiSecKey))
+		req.Header.Add("Authorization", fmt.Sprintf(`Bearer %s`, ctx.Config.ApiSecKey))
 	case "PUB_SEC_KEY":
-		req.Header.Add("x-id-key", ctx.Config.apiPubKey)
-		req.Header.Add("Authorization", fmt.Sprintf(`Bearer %s`, ctx.Config.apiSecKey))
+		req.Header.Add("x-id-key", ctx.Config.ApiPubKey)
+		req.Header.Add("Authorization", fmt.Sprintf(`Bearer %s`, ctx.Config.ApiSecKey))
 	}
 	client := &http.Client{}
 	resp, err := client.Do(req)
