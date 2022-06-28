@@ -26,14 +26,14 @@ func setup() {
 func TestPayment(t *testing.T) {
 	setup()
 
-	// t.Run("Initialize Payment", func(t *testing.T) {
-	// 	args := payment.NewInitPaymentReq("YOUR_REFERENCE", "Samuel Shoyemi", "samwise858@gmail.com", "USDT", "USD", 100, true, map[string]string{"type": "Wallet fund"})
-	// 	resp, err := client.InitializePayment(args)
-	// 	if err != nil {
-	// 		fmt.Printf(`error: %v`, err)
-	// 	}
-	// 	fmt.Printf("response: %v", resp)
-	// })
+	t.Run("Initialize Payment", func(t *testing.T) {
+		args := payment.NewInitPaymentReq("YOUR_REFERENCE", "Samuel Shoyemi", "samwise858@gmail.com", "USDT", "USD", 100, true, map[string]string{"type": "Wallet fund"})
+		resp, err := client.InitializePayment(args)
+		if err != nil {
+			fmt.Printf(`error: %v`, err)
+		}
+		fmt.Printf("response: %v", resp)
+	})
 
 	t.Run("Verify Payment", func(t *testing.T) {
 		resp, err := client.VerifyPayment("12334556")

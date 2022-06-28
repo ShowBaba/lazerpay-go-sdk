@@ -35,7 +35,7 @@ With the base at:
 
 ```go
   // initialize payment
-  args := p.NewInitPaymentReq("YOUR_REFERENCE","Samuel Shoyemi", "samwise858@gmail.com", "USDT", "USD", 100, true, map[string]string{"type": "Wallet fund"})
+  args := payment.NewInitPaymentReq("YOUR_REFERENCE","Samuel Shoyemi", "samwise858@gmail.com", "USDT", "USD", 100, true, map[string]string{"type": "Wallet fund"})
 
    resp, err := p.InitializePayment(args); if err != nil {
     	fmt.Printf("error: %v", err)
