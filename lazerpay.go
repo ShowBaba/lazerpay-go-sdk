@@ -109,5 +109,5 @@ type APIError struct {
 }
 
 func (e APIError) Error() string {
-	return fmt.Sprintf(`unexpected error occured; error: %v; code: %v`, e.Content, e.StatusCode)
+	return fmt.Sprintf(`unexpected error occured; error: %v; code: %v\n`, e.Content, e.StatusCode)
 }

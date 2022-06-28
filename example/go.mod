@@ -2,6 +2,4 @@ module github.com/ShowBaba/lazerpay-go-sdk/example
 
 go 1.17
 
-replace "github.com/ShowBaba/lazerpay-go-sdk/payment" => ../payment
-replace "github.com/ShowBaba/lazerpay-go-sdk" => ./
-
+require github.com/ShowBaba/lazerpay-go-sdk v0.0.0-20220628091050-61d077f00e76
