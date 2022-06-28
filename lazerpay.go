@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 )
 
@@ -51,6 +52,7 @@ func GetBaseURL(c Config) string {
 }
 
 func (ctx Context) SendRequest(mtd string, url string, data interface{}, params map[string]string, authType string) (b []byte, err error) {
+	log.Println("running request")
 	var (
 		req  *http.Request
 		body *bytes.Buffer
@@ -66,10 +68,8 @@ func (ctx Context) SendRequest(mtd string, url string, data interface{}, params 
 		body = nil
 	}
 	var paramStr string = "?"
-	if params != nil {
-		for k, v := range params {
-			paramStr += fmt.Sprintf("%s=%s&", k, v)
-		}
+	for k, v := range params {
+		paramStr += fmt.Sprintf("%s=%s&", k, v)
 	}
 	url += paramStr
 	req, err = http.NewRequest("POST", url, body)

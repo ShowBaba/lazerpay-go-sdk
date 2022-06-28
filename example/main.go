@@ -8,8 +8,8 @@ import (
 )
 
 var (
-	LAZER_PUBLIC_KEY = ""
-	LAZER_SECRET_KEY = ""
+	LAZER_PUBLIC_KEY = "test-pub-key"
+	LAZER_SECRET_KEY = "test-sec-key"
 )
 
 func main() {
@@ -22,7 +22,7 @@ func main() {
 	p := payment.New(config)
 	args := payment.NewInitPaymentReq("YOUR_REFERENCE", "Samuel Shoyemi", "samwise858@gmail.com", "USDT", "USD", 100, true, map[string]string{"type": "Wallet fund"})
 	resp, err := p.InitializePayment(args); if err != nil {
-		fmt.Printf("error: %v", err)
+		panic(err)
 	}
 	fmt.Printf("response: %v", resp)
 }
