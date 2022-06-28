@@ -23,7 +23,8 @@ func main() {
 	args := payment.NewInitPaymentReq("YOUR_REFERENCE", "Samuel Shoyemi", "samwise858@gmail.com", "USDT", "USD", 100, true, map[string]string{"type": "Wallet fund"})
 	resp, err := p.InitializePayment(args)
 	if err != nil {
-		panic(err)
+		fmt.Printf("error occured while sending request; err: %v", err)
+		return
 	}
 	fmt.Printf("response: %v", resp)
 }

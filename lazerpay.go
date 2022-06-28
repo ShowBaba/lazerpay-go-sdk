@@ -50,7 +50,6 @@ func (ctx *Context) GetBaseURL(c Config) string {
 }
 
 func (ctx Context) SendRequest(mtd string, url string, data interface{}, params map[string]string, authType string) (b []byte, err error) {
-	log.Println("running request")
 	var (
 		req  *http.Request
 		body *bytes.Buffer
