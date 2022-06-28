@@ -14,7 +14,6 @@ const (
 )
 
 var (
-	err      error
 	BASE_URL string
 )
 
@@ -30,6 +29,7 @@ type Context struct {
 
 func NewContext(c Config) Context {
 	BASE_URL = GetBaseURL(c)
+	fmt.Println(BASE_URL)
 	return Context{c}
 }
 
