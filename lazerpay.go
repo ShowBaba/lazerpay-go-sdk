@@ -53,6 +53,11 @@ func (ctx Context) SendRequest(mtd string, url string, data interface{}, params 
 		req  *http.Request
 		body *bytes.Buffer
 	)
+	var paramStr string = "?"
+	for k, v := range params {
+		paramStr += fmt.Sprintf("%s=%s&", k, v)
+	}
+	url += paramStr
 	switch mtd {
 	case "POST":
 		jsonBytes, err := json.Marshal(data)
@@ -60,17 +65,15 @@ func (ctx Context) SendRequest(mtd string, url string, data interface{}, params 
 			return nil, err
 		}
 		body = bytes.NewBuffer(jsonBytes)
+		req, err = http.NewRequest("POST", url, body)
+		if err != nil {
+			return nil, err
+		}
 	case "GET":
-		body = nil
-	}
-	var paramStr string = "?"
-	for k, v := range params {
-		paramStr += fmt.Sprintf("%s=%s&", k, v)
-	}
-	url += paramStr
-	req, err = http.NewRequest("POST", url, body)
-	if err != nil {
-		return nil, err
+		req, err = http.NewRequest("GET", url, nil)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	switch authType {
