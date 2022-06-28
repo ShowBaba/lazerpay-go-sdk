@@ -29,7 +29,7 @@ type Context struct {
 
 func NewContext(c Config) Context {
 	BASE_URL = GetBaseURL(c)
-	fmt.Println(BASE_URL)
+	fmt.Println("Endpoints === ", Endpoints)
 	return Context{c}
 }
 
