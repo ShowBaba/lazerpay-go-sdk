@@ -1,45 +1,37 @@
-package lazerpay_test
+package payment_test
 
 import (
 	"fmt"
-	"log"
 	"testing"
 
 	"github.com/ShowBaba/lazerpay-go-sdk"
 	"github.com/ShowBaba/lazerpay-go-sdk/payment"
 )
 
-// go test -v
-
 var (
 	LAZER_PUBLIC_KEY = "test-pub-key"
 	LAZER_SECRET_KEY = "test-sec-key"
-	ctx              lazerpay.Context
 	config           = lazerpay.Config{
 		ApiPubKey: LAZER_PUBLIC_KEY,
 		ApiSecKey: LAZER_SECRET_KEY,
 		Live:      true,
 	}
+	client payment.Client
 )
 
 func setup() {
-	ctx = lazerpay.NewContext(config)
+	client = payment.New(config)
 }
 
-func TestRequests(t *testing.T) {
+func TestPayment(t *testing.T) {
 	setup()
 
-	t.Run("GET Request", func(t *testing.T) {
-		p := payment.New(config)
+	t.Run("Initialize Payment", func(t *testing.T) {
 		args := payment.NewInitPaymentReq("YOUR_REFERENCE", "Samuel Shoyemi", "samwise858@gmail.com", "USDT", "USD", 100, true, map[string]string{"type": "Wallet fund"})
-		resp, err := p.InitializePayment(args)
+		resp, err := client.InitializePayment(args)
 		if err != nil {
-			log.Println(err)
+			fmt.Printf(`error: %v`, err)
 		}
-		fmt.Println(resp)
-	})
-
-	t.Run("POST Request", func(t *testing.T) {
-
+		fmt.Printf("response: %v", resp)
 	})
 }
