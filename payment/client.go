@@ -19,6 +19,7 @@ var BASE_URL string
 
 func (p *apiImpl) InitializePayment(arg *InitPaymentReq) (res *InitPaymentResp, err error) {
 	url := BASE_URL + (*lazerpay.Context)(p).GetEndpoint("payment", "create")
+	fmt.Println(url)
 	resp, err := (*lazerpay.Context)(p).SendRequest("POST", url, arg, nil, "PUB_KEY")
 	if err != nil {
 		log.Println("err: ", err)

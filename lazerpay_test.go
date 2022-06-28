@@ -8,6 +8,8 @@ import (
 	"github.com/ShowBaba/lazerpay-go-sdk/payment"
 )
 
+// go test -v
+
 var (
 	LAZER_PUBLIC_KEY = "test-pub-key"
 	LAZER_SECRET_KEY = "test-sec-key"
