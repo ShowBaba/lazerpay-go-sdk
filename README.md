@@ -1,4 +1,4 @@
-# Lazerpay SDK for Go {UNOFFICIAL}
+# Lazerpay SDK for Go [UNOFFICIAL]
 
 ## Installation
 ```sh
