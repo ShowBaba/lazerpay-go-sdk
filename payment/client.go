@@ -31,7 +31,6 @@ func (p *apiImpl) InitializePayment(arg *InitPaymentReq) (res *InitPaymentResp, 
 func (p *apiImpl) VerifyPayment(id string) (res *VerifyPaymentResp, err error) {
 	url := BASE_URL + (*lazerpay.Context)(p).GetEndpoint("payment", "verify")
 	urlWithParam := fmt.Sprintf(`%s/%s`, url, id)
-	fmt.Println("urlWithParam = ", urlWithParam)
 	resp, err := (*lazerpay.Context)(p).SendRequest("GET", urlWithParam, nil, nil, "PUB_KEY")
 	if err != nil {
 		return
