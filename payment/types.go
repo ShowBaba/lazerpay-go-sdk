@@ -2,7 +2,7 @@ package payment
 
 type InitPaymentReq struct {
 	Reference            string      `json:"reference,omitempty"`
-	Amount               int      `json:"amount"`
+	Amount               int         `json:"amount"`
 	CustomerName         string      `json:"customer_name"`
 	CustomerEmail        string      `json:"customer_email"`
 	Coin                 string      `json:"coin"`
