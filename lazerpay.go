@@ -28,15 +28,13 @@ type Context struct {
 }
 
 func NewContext(c Config) Context {
-	BASE_URL = GetBaseURL(c)
-	fmt.Println("Endpoints === ", Endpoints)
 	return Context{c}
 }
 
 var Endpoints = map[string]map[string]string{
 	"payment": {
-		"create": fmt.Sprintf(`%s/transaction/initialize`, BASE_URL),
-		"verify": fmt.Sprintf(`%s/transaction/verify`, BASE_URL),
+		"create": "/transaction/initialize",
+		"verify": "/transaction/verify",
 	},
 }
 
@@ -44,7 +42,7 @@ func (ctx *Context) GetEndpoint(endpointType string, action string) string {
 	return Endpoints[endpointType][action]
 }
 
-func GetBaseURL(c Config) string {
+func (ctx *Context) GetBaseURL(c Config) string {
 	if c.Live {
 		return API_URL_LIVE
 	}

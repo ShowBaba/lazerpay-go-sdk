@@ -26,7 +26,7 @@ func setup() {
 func TestRequests(t *testing.T) {
 	setup()
 
-	t.Run("GET request", func(t *testing.T) {
+	t.Run("GET Request", func(t *testing.T) {
 		p := payment.New(config)
 		args := payment.NewInitPaymentReq("YOUR_REFERENCE", "Samuel Shoyemi", "samwise858@gmail.com", "USDT", "USD", 100, true, map[string]string{"type": "Wallet fund"})
 		resp, err := p.InitializePayment(args)
@@ -36,7 +36,7 @@ func TestRequests(t *testing.T) {
 		fmt.Println(resp)
 	})
 
-	t.Run("POST request", func(t *testing.T) {
+	t.Run("POST Request", func(t *testing.T) {
 
 	})
 }
