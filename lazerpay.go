@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 )
 
@@ -59,7 +58,6 @@ func (ctx Context) SendRequest(mtd string, url string, data interface{}, params 
 		paramStr += fmt.Sprintf("%s=%s&", k, v)
 	}
 	url += paramStr
-	log.Println("Incoming data = ", data)
 	switch mtd {
 	case "POST":
 		jsonBytes, err := json.Marshal(data)
