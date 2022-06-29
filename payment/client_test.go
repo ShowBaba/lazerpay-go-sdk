@@ -9,8 +9,8 @@ import (
 )
 
 var (
-	LAZER_PUBLIC_KEY = "test-pub-key"
-	LAZER_SECRET_KEY = "test-sec-key"
+	LAZER_PUBLIC_KEY = "pk_test_cF00yS979TU2NguXHHjqLT05yknbaue7uqv7LwFD0alUEUvIue"
+	LAZER_SECRET_KEY = "sk_test_Un4pKbE7Z9duLdQiBBQJIlTI7npLmd7PZfgUYQWjRJ5wNQz68y"
 	config           = lazerpay.Config{
 		ApiPubKey: LAZER_PUBLIC_KEY,
 		ApiSecKey: LAZER_SECRET_KEY,
@@ -35,11 +35,11 @@ func TestPayment(t *testing.T) {
 		fmt.Printf("response: %v", resp)
 	})
 
-	t.Run("Verify Payment", func(t *testing.T) {
-		resp, err := client.VerifyPayment("12334556")
-		if err != nil {
-			fmt.Printf(`error: %v`, err)
-		}
-		fmt.Printf("response: %v", resp)
-	})
+	// t.Run("Verify Payment", func(t *testing.T) {
+	// 	resp, err := client.VerifyPayment("12334556")
+	// 	if err != nil {
+	// 		fmt.Printf(`error: %v`, err)
+	// 	}
+	// 	fmt.Printf("response: %v", resp)
+	// })
 }

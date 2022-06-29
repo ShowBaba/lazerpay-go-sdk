@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 )
 
@@ -58,6 +59,7 @@ func (ctx Context) SendRequest(mtd string, url string, data interface{}, params 
 		paramStr += fmt.Sprintf("%s=%s&", k, v)
 	}
 	url += paramStr
+	log.Println("Incoming data = ", data)
 	switch mtd {
 	case "POST":
 		jsonBytes, err := json.Marshal(data)
@@ -78,12 +80,15 @@ func (ctx Context) SendRequest(mtd string, url string, data interface{}, params 
 
 	switch authType {
 	case "PUB_KEY":
-		req.Header.Add("x-id-key", ctx.Config.ApiPubKey)
+		req.Header.Add("x-api-key", ctx.Config.ApiPubKey)
+		req.Header.Add("Content-Type", "application/json")
 	case "SEC_KEY":
 		req.Header.Add("Authorization", fmt.Sprintf(`Bearer %s`, ctx.Config.ApiSecKey))
+		req.Header.Add("Content-Type", "application/json")
 	case "PUB_SEC_KEY":
-		req.Header.Add("x-id-key", ctx.Config.ApiPubKey)
+		req.Header.Add("x-api-key", ctx.Config.ApiPubKey)
 		req.Header.Add("Authorization", fmt.Sprintf(`Bearer %s`, ctx.Config.ApiSecKey))
+		req.Header.Add("Content-Type", "application/json")
 	}
 	client := &http.Client{}
 	resp, err := client.Do(req)
