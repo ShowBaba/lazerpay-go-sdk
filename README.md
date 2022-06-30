@@ -36,15 +36,15 @@ With the base at:
 ```go
   // initialize payment
   arg := &payment.InitPaymentReq{
-			Reference: uniqueID,
-			CustomerName: "Samuel Shoyemi",
-			CustomerEmail: "samwise858@gmail.com",
-			Coin: "USDT",
-			Currency: "USD",
-			Amount: 100,
-			AcceptPartialPayment: true,
-			Metadata:  map[string]string{"type": "Wallet fund"},
-		}
+    Reference: uniqueID,
+    CustomerName: "Samuel Shoyemi",
+    CustomerEmail: "samwise858@gmail.com",
+    Coin: "USDT",
+    Currency: "USD",
+    Amount: 100,
+    AcceptPartialPayment: true,
+    Metadata:  map[string]string{"type": "Wallet fund"},
+  }
   resp, err := client.InitializePayment(arg)
   if err != nil {
     fmt.Printf(`error: %v`, err)
