@@ -9,17 +9,12 @@ import (
 )
 
 const (
-	API_URL_LIVE = "https://api.lazerpay.engineering/api/v1"
-)
-
-var (
-	BASE_URL string
+	BASE_URL = "https://api.lazerpay.engineering/api/v1"
 )
 
 type Config struct {
 	ApiPubKey string
 	ApiSecKey string
-	Live      bool
 }
 
 type Context struct {
@@ -35,48 +30,60 @@ var Endpoints = map[string]map[string]string{
 		"create": "/transaction/initialize",
 		"verify": "/transaction/verify",
 	},
+	"payment_link": {
+		"create": "/payment-links",
+		"update": "/payment-links",
+		"fetch":  "/payment-links",
+	},
 }
 
-func (ctx *Context) GetEndpoint(endpointType string, action string) string {
-	return Endpoints[endpointType][action]
+func (ctx *Context) GetEndpoint(endpoint []string) string {
+	return Endpoints[endpoint[0]][endpoint[1]]
 }
 
-func (ctx *Context) GetBaseURL(c Config) string {
-	if c.Live {
-		return API_URL_LIVE
+type Request struct {
+	Method     string
+	Route      []string
+	Queries    map[string]string
+	Identifier string
+	Auth       string
+}
+
+func (ctx *Context) GenerateURL(route []string, queries map[string]string, identifier string) string {
+	var queryStr string = "?"
+	for k, v := range queries {
+		queryStr += fmt.Sprintf("%s=%s&", k, v)
 	}
-	return "" // return a sandbox URL instead
+	endpoint := ctx.GetEndpoint(route)
+	if identifier != "" {
+		return fmt.Sprintf(`%s%s/%s%s`, BASE_URL, endpoint, identifier, queryStr)
+	}
+	return fmt.Sprintf(`%s%s%s`, BASE_URL, endpoint, queryStr)
 }
 
-func (ctx Context) SendRequest(mtd string, url string, data interface{}, params map[string]string, authType string) (b []byte, err error) {
+func (ctx Context) SendRequest(reqData Request, data interface{}) (b []byte, err error) {
+	url := ctx.GenerateURL(reqData.Route, reqData.Queries, reqData.Identifier)
 	var (
 		req  *http.Request
 		body *bytes.Buffer
 	)
-	var paramStr string = "?"
-	for k, v := range params {
-		paramStr += fmt.Sprintf("%s=%s&", k, v)
-	}
-	url += paramStr
-	switch mtd {
-	case "POST":
+	if data != nil {
 		jsonBytes, err := json.Marshal(data)
 		if err != nil {
 			return nil, err
 		}
 		body = bytes.NewBuffer(jsonBytes)
-		req, err = http.NewRequest("POST", url, body)
+		req, err = http.NewRequest(reqData.Method, url, body)
 		if err != nil {
 			return nil, err
 		}
-	case "GET":
-		req, err = http.NewRequest("GET", url, nil)
+	} else {
+		req, err = http.NewRequest(reqData.Method, url, nil)
 		if err != nil {
 			return nil, err
 		}
 	}
-
-	switch authType {
+	switch reqData.Auth {
 	case "PUB_KEY":
 		req.Header.Add("x-api-key", ctx.Config.ApiPubKey)
 		req.Header.Add("Content-Type", "application/json")
@@ -98,13 +105,15 @@ func (ctx Context) SendRequest(mtd string, url string, data interface{}, params 
 	if err != nil {
 		return nil, err
 	}
+	if resp.StatusCode == http.StatusOK || resp.StatusCode == http.StatusCreated {
+		return b, nil
+	}
 	return b, APIError{
 		StatusCode: resp.StatusCode,
 		Content:    string(b),
 	}
 }
 
-// error from lazerpay API
 type APIError struct {
 	StatusCode int
 	Content    string
@@ -112,4 +121,11 @@ type APIError struct {
 
 func (e APIError) Error() string {
 	return fmt.Sprintf(`unexpected error occured; error: %v; code: %v\n`, e.Content, e.StatusCode)
+}
+
+type CustomResp struct {
+	Status string `json:"status"`
+	StatusCode int `json:"statusCode"`
+	Message string `json:"message"`
+	Data interface{} `json:"data,omitempty"`
 }

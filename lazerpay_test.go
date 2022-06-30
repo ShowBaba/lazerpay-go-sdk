@@ -1,12 +1,9 @@
 package lazerpay_test
 
 import (
-	"fmt"
-	"log"
 	"testing"
 
 	"github.com/ShowBaba/lazerpay-go-sdk"
-	"github.com/ShowBaba/lazerpay-go-sdk/payment"
 )
 
 // go test -v
@@ -18,7 +15,6 @@ var (
 	config           = lazerpay.Config{
 		ApiPubKey: LAZER_PUBLIC_KEY,
 		ApiSecKey: LAZER_SECRET_KEY,
-		Live:      true,
 	}
 )
 

@@ -2,24 +2,30 @@ package payment
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 
 	lazerpay "github.com/ShowBaba/lazerpay-go-sdk"
 )
 
 type Client interface {
-	InitializePayment(arg *InitPaymentReq) (res *InitPaymentResp, err error)
-	VerifyPayment(id string) (res *VerifyPaymentResp, err error)
+	InitializePayment(arg *InitPaymentReq) (res *lazerpay.CustomResp, err error)
+	VerifyPayment(arg *VerifyPaymentReq) (res *lazerpay.CustomResp, err error)
 }
 
 type apiImpl lazerpay.Context
 
-var BASE_URL string
+func New(c lazerpay.Config) Client {
+	ctx := apiImpl(lazerpay.NewContext(c))
+	return &ctx
+}
 
-func (p *apiImpl) InitializePayment(arg *InitPaymentReq) (res *InitPaymentResp, err error) {
-	url := BASE_URL + (*lazerpay.Context)(p).GetEndpoint("payment", "create")
-	resp, err := (*lazerpay.Context)(p).SendRequest("POST", url, arg, nil, "PUB_KEY")
+func (p *apiImpl) InitializePayment(arg *InitPaymentReq) (res *lazerpay.CustomResp, err error) {
+	reqData := lazerpay.Request{
+		Method: "POST",
+		Route:  []string{"payment", "create"},
+		Auth:   "PUB_KEY",
+	}
+	resp, err := (*lazerpay.Context)(p).SendRequest(reqData, arg)
 	if err != nil {
 		log.Println("err: ", err)
 		return
@@ -28,10 +34,14 @@ func (p *apiImpl) InitializePayment(arg *InitPaymentReq) (res *InitPaymentResp, 
 	return
 }
 
-func (p *apiImpl) VerifyPayment(id string) (res *VerifyPaymentResp, err error) {
-	url := BASE_URL + (*lazerpay.Context)(p).GetEndpoint("payment", "verify")
-	urlWithParam := fmt.Sprintf(`%s/%s`, url, id)
-	resp, err := (*lazerpay.Context)(p).SendRequest("GET", urlWithParam, nil, nil, "PUB_KEY")
+func (p *apiImpl) VerifyPayment(arg *VerifyPaymentReq) (res *lazerpay.CustomResp, err error) {
+	reqData := lazerpay.Request{
+		Method: "GET",
+		Route:  []string{"payment", "verify"},
+		Auth:   "PUB_KEY",
+		Identifier: arg.Identifier,
+	}
+	resp, err := (*lazerpay.Context)(p).SendRequest(reqData, nil)
 	if err != nil {
 		return
 	}
@@ -39,8 +49,4 @@ func (p *apiImpl) VerifyPayment(id string) (res *VerifyPaymentResp, err error) {
 	return
 }
 
-func New(c lazerpay.Config) Client {
-	ctx := apiImpl(lazerpay.NewContext(c))
-	BASE_URL = (*lazerpay.Context)(&ctx).GetBaseURL(c)
-	return &ctx
-}
+
