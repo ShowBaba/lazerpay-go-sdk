@@ -27,7 +27,7 @@ With the base at:
       Live: true,
     }
 
-    p := payment.New(config)
+    client := payment.New(config)
   }
 ```
 
@@ -35,10 +35,19 @@ With the base at:
 
 ```go
   // initialize payment
-  args := payment.NewInitPaymentReq("YOUR_REFERENCE","Samuel Shoyemi", "samwise858@gmail.com", "USDT", "USD", 100, true, map[string]string{"type": "Wallet fund"})
-
-   resp, err := p.InitializePayment(args); if err != nil {
-    	fmt.Printf("error: %v", err)
+  arg := &payment.InitPaymentReq{
+			Reference: uniqueID,
+			CustomerName: "Samuel Shoyemi",
+			CustomerEmail: "samwise858@gmail.com",
+			Coin: "USDT",
+			Currency: "USD",
+			Amount: 100,
+			AcceptPartialPayment: true,
+			Metadata:  map[string]string{"type": "Wallet fund"},
+		}
+  resp, err := client.InitializePayment(arg)
+  if err != nil {
+    fmt.Printf(`error: %v`, err)
   }
   fmt.Printf("response: %v", resp)
 ```
