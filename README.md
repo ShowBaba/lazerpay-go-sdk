@@ -10,7 +10,7 @@ This SDK is built so you can import relavant namespace(s) only.
 The following sub-packages are exported:
 
 * `go get github.com/ShowBaba/lazerpay-go-sdk/payment`
-* * `go get github.com/ShowBaba/lazerpay-go-sdk/payment-link`
+* `go get github.com/ShowBaba/lazerpay-go-sdk/payment-link`
 
 With the base at:
 * `go get github.com/ShowBaba/lazerpay-go-sdk`
