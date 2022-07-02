@@ -12,6 +12,7 @@ type Client interface {
 	GetAllPaymentLinks() (res *lazerpay.CustomResp, err error)
 	GetPaymentLink(arg *GetPaymentLinkReq) (res *lazerpay.CustomResp, err error)
 }
+
 type apiImpl lazerpay.Context
 
 func New(c lazerpay.Config) Client {

@@ -48,5 +48,3 @@ func (p *apiImpl) VerifyPayment(arg *VerifyPaymentReq) (res *lazerpay.CustomResp
 	err = json.Unmarshal(resp, &res)
 	return
 }
-
-

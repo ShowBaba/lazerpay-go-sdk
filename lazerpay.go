@@ -35,6 +35,9 @@ var Endpoints = map[string]map[string]string{
 		"update": "/payment-links",
 		"fetch":  "/payment-links",
 	},
+	"transfer": {
+		"transfer-crypto": "/transfer",
+	},
 }
 
 func (ctx *Context) GetEndpoint(endpoint []string) string {
@@ -83,18 +86,23 @@ func (ctx Context) SendRequest(reqData Request, data interface{}) (b []byte, err
 			return nil, err
 		}
 	}
+
 	switch reqData.Auth {
 	case "PUB_KEY":
 		req.Header.Add("x-api-key", ctx.Config.ApiPubKey)
-		req.Header.Add("Content-Type", "application/json")
 	case "SEC_KEY":
 		req.Header.Add("Authorization", fmt.Sprintf(`Bearer %s`, ctx.Config.ApiSecKey))
-		req.Header.Add("Content-Type", "application/json")
 	case "PUB_SEC_KEY":
 		req.Header.Add("x-api-key", ctx.Config.ApiPubKey)
 		req.Header.Add("Authorization", fmt.Sprintf(`Bearer %s`, ctx.Config.ApiSecKey))
-		req.Header.Add("Content-Type", "application/json")
+	default:
+		{
+			req.Header.Add("x-api-key", ctx.Config.ApiPubKey)
+			req.Header.Add("Authorization", fmt.Sprintf(`Bearer %s`, ctx.Config.ApiSecKey))
+		}
 	}
+
+	req.Header.Add("Content-Type", "application/json")
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
@@ -109,23 +117,21 @@ func (ctx Context) SendRequest(reqData Request, data interface{}) (b []byte, err
 		return b, nil
 	}
 	return b, APIError{
-		StatusCode: resp.StatusCode,
-		Content:    string(b),
+		Content: string(b),
 	}
 }
 
 type APIError struct {
-	StatusCode int
-	Content    string
+	Content string
 }
 
 func (e APIError) Error() string {
-	return fmt.Sprintf(`unexpected error occured; error: %v; code: %v\n`, e.Content, e.StatusCode)
+	return fmt.Sprintf(`unexpected error occured; error: %v;`, e.Content)
 }
 
 type CustomResp struct {
-	Status string `json:"status"`
-	StatusCode int `json:"statusCode"`
-	Message string `json:"message"`
-	Data interface{} `json:"data,omitempty"`
+	Status     string      `json:"status"`
+	StatusCode int         `json:"statusCode"`
+	Message    string      `json:"message"`
+	Data       interface{} `json:"data,omitempty"`
 }

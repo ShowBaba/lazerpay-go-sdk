@@ -61,8 +61,8 @@ This describes to allow you confirm your customers transaction after payment has
 
 ```go
   arg := &payment.VerifyPaymentReq{
-			Identifier: uniqueID,
-		}
+    Identifier: uniqueID,
+  }
   resp, err := client.VerifyPayment(arg)
   if err != nil {
     fmt.Printf(`error: %v`, err)
@@ -129,4 +129,23 @@ This describes to allow you get a Payment link by it's identifier
     fmt.Printf(`error: %v\n\n`, err)
   }
   fmt.Printf("response: %v\n\n", resp)
+```
+
+#### `Crypto Payout`
+This describes to allow you withdraw the crypto in their lazerpay balance to an external address
+
+```go
+  arg := &transfer.TransaferCryptoReq{
+    Reference:  uniqueID,
+    Amount:     100,
+    Recipient:  "0x0B4d358D349809037003F96A3593ff9015E89efA",
+    Coin:       "USDT",
+    Blockchain: "Binance Smart Chain",
+    Metadata:   map[string]string{"type": "Crypto transfer"},
+  }
+  resp, err := client.TransferCrypto(arg)
+  if err != nil {
+    fmt.Printf(`error: %v`, err)
+  }
+  fmt.Printf("response: %v", resp)
 ```
