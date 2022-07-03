@@ -11,15 +11,16 @@ This SDK is built so you can import relavant namespace(s) only.
 
 * `go get github.com/ShowBaba/lazerpay-go-sdk/payment`
 * `go get github.com/ShowBaba/lazerpay-go-sdk/payment-link`
+* `go get github.com/ShowBaba/lazerpay-go-sdk/transfer`
 
 With the base at:
 * `go get github.com/ShowBaba/lazerpay-go-sdk`
 
-## Usage
+## Usage 
 
+### Configuration
 ```go
   import "github.com/ShowBaba/lazerpay-go-sdk"
-  import "github.com/ShowBaba/lazerpay-go-sdk/payment"
 
   func main() {
     config := lazerpay.Config{
@@ -27,8 +28,6 @@ With the base at:
       apiSecKey: LAZER_SECRET_KEY,
       Live: true,
     }
-
-    client := payment.New(config)
   }
 ```
 
@@ -40,6 +39,10 @@ With the base at:
 This describes to allow your customers to initiate a crypto payment transfer.
 
 ```go
+  import "github.com/ShowBaba/lazerpay-go-sdk/payment"
+
+  client := payment.New(config)
+
   arg := &payment.InitPaymentReq{
     Reference: uniqueID,
     CustomerName: "Samuel Shoyemi",
@@ -76,6 +79,12 @@ This describes to allow you confirm your customers transaction after payment has
 This describes to allow you create a Payment link programatically
 
 ```go
+  import (
+	  paymentlink "github.com/ShowBaba/lazerpay-go-sdk/payment-link"
+  )
+  
+	client = paymentlink.New(config)
+
 	arg := &paymentlink.CreatePaymentLinkReq{
     Title:       "test link",
     Description: "lorem ipsum",
@@ -135,6 +144,10 @@ This describes to allow you get a Payment link by it's identifier
 This describes to allow you withdraw the crypto in their lazerpay balance to an external address
 
 ```go
+	import "github.com/ShowBaba/lazerpay-go-sdk/transfer"
+
+	client = transfer.New(config)
+
   arg := &transfer.TransaferCryptoReq{
     Reference:  uniqueID,
     Amount:     100,
