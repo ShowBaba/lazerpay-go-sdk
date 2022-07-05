@@ -256,19 +256,17 @@ Get get wallet balance by specifying the coin
 ```
 
 #### `Get Rate`
-This describes to allow you get the rate of a particular coin to fiat or fiat to coin
+This allow you get the rate of a particular coin to fiat or fiat to coin
 
 ```go
 
-  import "github.com/ShowBaba/lazerpay-go-sdk/swap"
+  import "github.com/ShowBaba/lazerpay-go-sdk/misc"
 
-  client := swap.New(config)
+  client := misc.New(config)
 
-  arg := &swap.GetRateReq{
-    Amount:     100,
-    FromCoin:   "BUSD",
-    ToCoin:     "USDT",
-    Blockchain: "Binance Smart Chain",
+  arg := &misc.GetRateReq{
+    Coin: "USDT",
+		Currency: "USDT",
   }
   resp, err := client.GetRate(arg)
   if err != nil {
