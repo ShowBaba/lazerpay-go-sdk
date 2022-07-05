@@ -12,6 +12,7 @@ This SDK is built so you can import relavant namespace(s) only.
 * `go get github.com/ShowBaba/lazerpay-go-sdk/payment`
 * `go get github.com/ShowBaba/lazerpay-go-sdk/payment-link`
 * `go get github.com/ShowBaba/lazerpay-go-sdk/transfer`
+* `go get github.com/ShowBaba/lazerpay-go-sdk/swap`
 
 With the base at:
 * `go get github.com/ShowBaba/lazerpay-go-sdk`
@@ -55,7 +56,8 @@ This describes to allow your customers to initiate a crypto payment transfer.
   }
   resp, err := client.InitializePayment(arg)
   if err != nil {
-    fmt.Printf(`error: %v`, err)
+    t.Errorf("unexpected error occured; err: %v", err)
+			return
   }
   fmt.Printf("response: %v", resp)
 ```
@@ -68,7 +70,8 @@ This describes to allow you confirm your customers transaction after payment has
   }
   resp, err := client.VerifyPayment(arg)
   if err != nil {
-    fmt.Printf(`error: %v`, err)
+    t.Errorf("unexpected error occured; err: %v", err)
+			return
   }
   fmt.Printf("response: %v", resp)
 ```
@@ -158,7 +161,55 @@ This describes to allow you withdraw the crypto in their lazerpay balance to an 
   }
   resp, err := client.TransferCrypto(arg)
   if err != nil {
-    fmt.Printf(`error: %v`, err)
+    t.Errorf("unexpected error occured; err: %v", err)
+			return
   }
   fmt.Printf("response: %v", resp)
+```
+
+## Swap
+
+#### `Crypto swap`
+This describes to allow you swap swap between two stable coins 
+
+```go
+	import "github.com/ShowBaba/lazerpay-go-sdk/swap"
+
+  client := swap.New(config)
+
+  arg := &swap.CryptoSwapReq{
+    Reference:  uniqueID,
+    Amount:     100,
+    FromCoin:   "BUSD",
+    ToCoin:     "USDT",
+    Blockchain: "Binance Smart Chain",
+  }
+  resp, err := client.CryptoSwap(arg)
+  if err != nil {
+    t.Errorf("unexpected error occured; err: %v", err)
+    return
+  }
+  fmt.Printf("response: %v\n\n", resp)
+```
+
+#### `Get Crypto Swap Amount Out`
+This describes the amount you will receive on swap even before initiating the swap  
+
+```go
+  import "github.com/ShowBaba/lazerpay-go-sdk/swap"
+
+  client := swap.New(config)
+
+  arg := &swap.GetCryptoSwapAmountOutReq{
+    Amount:     100,
+    FromCoin:   "BUSD",
+    ToCoin:     "USDT",
+    Blockchain: "Binance Smart Chain",
+  }
+  resp, err := client.GetCryptoSwapAmountOut(arg)
+  if err != nil {
+    t.Errorf("unexpected error occured; err: %v", err)
+    return
+  }
+  fmt.Printf("response: %v\n\n", resp)
 ```

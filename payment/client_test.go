@@ -42,7 +42,8 @@ func TestPayment(t *testing.T) {
 		}
 		resp, err := client.InitializePayment(arg)
 		if err != nil {
-			fmt.Printf(`error: %v`, err)
+			t.Errorf("unexpected error occured; err: %v", err)
+			return
 		}
 		fmt.Printf("response: %v", resp)
 	})
@@ -53,7 +54,8 @@ func TestPayment(t *testing.T) {
 		}
 		resp, err := client.VerifyPayment(arg)
 		if err != nil {
-			fmt.Printf(`error: %v`, err)
+			t.Errorf("unexpected error occured; err: %v", err)
+			return
 		}
 		fmt.Printf("response: %v", resp)
 	})

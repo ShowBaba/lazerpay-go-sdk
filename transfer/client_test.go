@@ -40,7 +40,8 @@ func TestTransfer(t *testing.T) {
 		}
 		resp, err := client.TransferCrypto(arg)
 		if err != nil {
-			fmt.Printf(`error: %v`, err)
+			t.Errorf("unexpected error occured; err: %v", err)
+			return
 		}
 		fmt.Printf("response: %v", resp)
 	})
