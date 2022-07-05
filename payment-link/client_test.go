@@ -41,7 +41,8 @@ func TestPayment(t *testing.T) {
 		}
 		resp, err := client.CreatePaymentLink(arg)
 		if err != nil {
-			fmt.Printf(`error: %v\n`, err)
+			t.Errorf("unexpected error occured; err: %v", err)
+			return
 		}
 		fmt.Printf("response: %v\n\n", resp)
 	})
@@ -53,7 +54,8 @@ func TestPayment(t *testing.T) {
 		}
 		resp, err := client.UpdatePaymentLink(arg)
 		if err != nil {
-			fmt.Printf(`error: %v\n`, err)
+			t.Errorf("unexpected error occured; err: %v", err)
+			return
 		}
 		fmt.Printf("response: %v\n\n", resp)
 	})
@@ -61,7 +63,8 @@ func TestPayment(t *testing.T) {
 	t.Run("Get All Payment Links", func(t *testing.T) {
 		resp, err := client.GetAllPaymentLinks()
 		if err != nil {
-			fmt.Printf(`error: %v\n`, err)
+			t.Errorf("unexpected error occured; err: %v", err)
+			return
 		}
 		fmt.Printf("response: %v\n\n", resp)
 	})

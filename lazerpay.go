@@ -42,6 +42,11 @@ var Endpoints = map[string]map[string]string{
 		"crypto": "/swap/crypto",
 		"crypto-amount-out": "/swap/crypto/amount-out",
 	},
+	"misc": {
+		"get-accepted-coin": "/coins",
+		"get-wallet-balance": "/wallet/balance",
+		"get-rate": "/rate",
+	},
 }
 
 func (ctx *Context) GetEndpoint(endpoint []string) string {

@@ -213,3 +213,69 @@ This describes the amount you will receive on swap even before initiating the sw
   }
   fmt.Printf("response: %v\n\n", resp)
 ```
+
+## Misc
+
+#### `Get Accepted Coins`
+
+This gets the list of accepted cryptocurrencies on Lazerpay
+
+```go
+  import "github.com/ShowBaba/lazerpay-go-sdk/misc"
+
+  client := misc.New(config)
+
+  resp, err := client.GetAcceptedCoins()
+  if err != nil {
+    t.Errorf("unexpected error occured; err: %v", err)
+    return
+  }
+  fmt.Printf("response: %v", resp)
+
+```
+
+#### `Get Wallet Balance`
+Get get wallet balance by specifying the coin
+
+```go 
+
+  import "github.com/ShowBaba/lazerpay-go-sdk/misc"
+
+  client := misc.New(config)
+
+  arg := &misc.GetWalletBalanceReq{
+    Coin: "USDT",
+  }
+  resp, err := client.GetWalletBalance(arg)
+  if err != nil {
+    t.Errorf("unexpected error occured; err: %v", err)
+    return
+  }
+  fmt.Printf("response: %v", resp)
+
+```
+
+#### `Get Rate`
+This describes to allow you get the rate of a particular coin to fiat or fiat to coin
+
+```go
+
+  import "github.com/ShowBaba/lazerpay-go-sdk/swap"
+
+  client := swap.New(config)
+
+  arg := &swap.GetRateReq{
+    Amount:     100,
+    FromCoin:   "BUSD",
+    ToCoin:     "USDT",
+    Blockchain: "Binance Smart Chain",
+  }
+  resp, err := client.GetRate(arg)
+  if err != nil {
+    t.Errorf("unexpected error occured; err: %v", err)
+    return
+  }
+  fmt.Printf("response: %v\n\n", resp)
+
+```
+
