@@ -13,6 +13,7 @@ This SDK is built so you can import relavant namespace(s) only.
 * `go get github.com/ShowBaba/lazerpay-go-sdk/payment-link`
 * `go get github.com/ShowBaba/lazerpay-go-sdk/transfer`
 * `go get github.com/ShowBaba/lazerpay-go-sdk/swap`
+* `github.com/ShowBaba/lazerpay-go-sdk/misc`
 
 With the base at:
 * `go get github.com/ShowBaba/lazerpay-go-sdk`
